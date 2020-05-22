@@ -55,6 +55,11 @@ searching instead of the default linear. The list must be sorted numerically
 (C<$SORT> is C<num> or C<numeric>) or alphabetically (C<$SORT> is empty).
 
 
+=head1 PROVIDED METHODS
+
+=head2 word_exists
+
+
 =head1 SEE ALSO
 
 L<File::SortedSeek>
