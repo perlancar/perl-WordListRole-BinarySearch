@@ -16,13 +16,13 @@ sub word_exists {
 
     my ($self, $word) = @_;
 
-    my $origpkg = $self->[3];
+    my $class = $self->{orig_class} // ref($self);
 
-    my $dyn = ${"$origpkg\::DYNAMIC"};
+    my $dyn = ${"$class\::DYNAMIC"};
     die "Can't binary search on a dynamic wordlist" if $dyn;
 
-    my $fh = \*{"$origpkg\::DATA"};
-    my $sort = ${"$origpkg\::SORT"} || "";
+    my $fh = \*{"$class\::DATA"};
+    my $sort = ${"$class\::SORT"} || "";
 
     my $tell;
     if ($sort && $sort =~ /num/) {
