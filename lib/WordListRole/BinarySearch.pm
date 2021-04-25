@@ -12,7 +12,7 @@ use Role::Tiny;
 sub word_exists {
     no strict 'refs'; # this is required because Role::Tiny forces full stricture
 
-    require File::SortedSeek;
+    require File::SortedSeek::PERLANCAR;
 
     my ($self, $word) = @_;
 
@@ -26,15 +26,16 @@ sub word_exists {
 
     my $tell;
     if ($sort && $sort =~ /num/) {
-        $tell = File::SortedSeek::numeric($fh, $word);
+        $tell = File::SortedSeek::PERLANCAR::numeric   ($fh, $word, undef, $self->{fh_orig_pos});
     } elsif (!$sort) {
-        $tell = File::SortedSeek::alphabetic($fh, $word);
+        $tell = File::SortedSeek::PERLANCAR::alphabetic($fh, $word, undef, $self->{fh_orig_pos});
     } else {
         die "Wordlist is not ascibetically/numerically sort (sort=$sort)";
     }
 
-    chomp(my $line = <$fh>);
-    defined($line) && $line eq $word;
+    return 0 unless File::SortedSeek::PERLANCAR::was_exact();
+    return 0 unless defined $tell;
+    1;
 }
 
 1;
